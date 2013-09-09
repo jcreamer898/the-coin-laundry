@@ -1,37 +1,35 @@
-var http = require('http'),
-    mongo = require('mongoskin'),
-    _ = require('underscore');
 
-http.createServer(function (req, res) {
-    var connect = function(next){
-        var db = mongo.db("mongodb://MongoLab-25:Zqy8wu31J5C6E9Dhxf6Q4t2cyf8ckVkS8dWrnCiMOvw-@ds027748.mongolab.com:27748/MongoLab-25", {safe : true});
-        next(db);
-    };
+/**
+ * Module dependencies.
+ */
 
-    connect(function(db) {
-        var out = [];
+var express = require('express');
+var routes = require('./routes');
+var user = require('./routes/user');
+var http = require('http');
+var path = require('path');
 
-        db.collectionNames(function(err, collNames) {
-            if (err) {
-                res.writeHead(200, { 'Content-Type': 'text/html' });
-                res.end(JSON.stringify(err));
-            }
+var app = express();
 
-            _.each(collNames, function(collName) {
-                var cleanName = collName.name.replace("MongoLab-25" + ".","");
-                var formatted = {
-                    name : cleanName,
-                    details : "MongoLab-25" + "/" + cleanName,
-                    database : "MongoLab-25",
-                    type : "collection"
-                };
+// all environments
+app.set('port', process.env.PORT || 3000);
+app.set('views', __dirname + '/views');
+app.set('view engine', 'ejs');
+app.use(express.favicon());
+app.use(express.logger('dev'));
+app.use(express.bodyParser());
+app.use(express.methodOverride());
+app.use(app.router);
+app.use(express.static(path.join(__dirname, 'public')));
 
-                if(cleanName != "system.indexes") out.push(formatted);
-            });
-            
-            res.writeHead(200, { 'Content-Type': 'text/html' });
-            res.end('Hello, world!' + JSON.stringify(out));
-        });
-    });
-    
-}).listen(process.env.PORT || 8080);
+// development only
+if ('development' == app.get('env')) {
+  app.use(express.errorHandler());
+}
+
+app.get('/', routes.index);
+app.get('/users', user.list);
+
+http.createServer(app).listen(app.get('port'), function(){
+  console.log('Express server listening on port ' + app.get('port'));
+});
