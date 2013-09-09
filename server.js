@@ -3,7 +3,7 @@ var http = require('http'),
 
 http.createServer(function (req, res) {
     var connect = function(dbName, next){
-        var db = mongo.db(process.env.CUSTOMCONNSTR_MONGOLAB_URI + '/' + dbName, {safe : true});
+        var db = mongo.db("mongodb://MongoLab-25:Zqy8wu31J5C6E9Dhxf6Q4t2cyf8ckVkS8dWrnCiMOvw-@ds027748.mongolab.com:27748/MongoLab-25/" + dbName, {safe : true});
         next(db);
     };
 
@@ -16,7 +16,7 @@ http.createServer(function (req, res) {
             if (err) {
                 res.writeHead(200, { 'Content-Type': 'text/html' });
                 console.log();
-                res.end(JSON.stringify(err));
+                res.end(        JSON.stringify(err));
             }
 
             _.each(result.databases,function(item){
