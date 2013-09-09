@@ -7,25 +7,31 @@ http.createServer(function (req, res) {
         next(db);
     };
 
-    connect("admin", function(db) {
+    connect("fantasy", function(db) {
         var out = [];
 
         console.log(db);
 
-        db.admin.listDatabases(function(err, result){
+        db.collectionNames(function(err,collNames){
             if (err) {
                 res.writeHead(200, { 'Content-Type': 'text/html' });
-                console.log();
-                res.end(        JSON.stringify(err));
+                res.end(JSON.stringify(err));
             }
 
-            _.each(result.databases,function(item){
-                out.push(item.name);
-            });
+            _.each(collNames, function(collName) {
+                var cleanName = collName.name.replace(dbName + ".","");
+                var formatted = {
+                    name : cleanName,
+                    details : dbName + "/" + cleanName,
+                    database : dbName,
+                    type : "collection"
+                };
 
+                if(cleanName != "system.indexes") out.push(formatted);
+            });
+            
             res.writeHead(200, { 'Content-Type': 'text/html' });
             res.end('Hello, world!' + JSON.stringify(out));
-            // res.json(out);
         });
     });
     
