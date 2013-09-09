@@ -2,13 +2,15 @@ var http = require('http'),
     mongo = require('mongoskin');
 
 http.createServer(function (req, res) {
-    var connect = function(dbName,next){
+    var connect = function(dbName, next){
         var db = mongo.db(process.env.CUSTOMCONNSTR_MONGOLAB_URI + '/' + dbName, {safe : true});
         next(db);
     };
 
     connect("admin", function(db) {
         var out = [];
+
+        console.log(db);
 
         db.admin.listDatabases(function(err, result){
             if (err) {
