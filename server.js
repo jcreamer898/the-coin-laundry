@@ -1,5 +1,6 @@
 var http = require('http'),
-    mongo = require('mongoskin');
+    mongo = require('mongoskin'),
+    _ = require('underscore');
 
 http.createServer(function (req, res) {
     var connect = function(next){
