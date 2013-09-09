@@ -13,7 +13,7 @@ http.createServer(function (req, res) {
         db.admin.listDatabases(function(err, result){
             if (err) {
                 res.writeHead(200, { 'Content-Type': 'text/html' });
-                res.end('Error conencting to: ' + process.env.CUSTOMCONNSTR_MONGOLAB_URI + '/' + dbName, JSON.stringify(err));
+                res.end('Error conencting to: ' + process.env.CUSTOMCONNSTR_MONGOLAB_URI + '/' + "admin", JSON.stringify(err));
             }
 
             _.each(result.databases,function(item){
