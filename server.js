@@ -21,8 +21,8 @@ http.createServer(function (req, res) {
                 var cleanName = collName.name.replace(dbName + ".","");
                 var formatted = {
                     name : cleanName,
-                    details : dbName + "/" + cleanName,
-                    database : dbName,
+                    details : "MongoLab-25" + "/" + cleanName,
+                    database : "MongoLab-25",
                     type : "collection"
                 };
 
