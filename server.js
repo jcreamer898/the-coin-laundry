@@ -15,8 +15,8 @@ http.createServer(function (req, res) {
         db.admin.listDatabases(function(err, result){
             if (err) {
                 res.writeHead(200, { 'Content-Type': 'text/html' });
-                console.log(JSON.stringify(err));
-                res.end('Error conencting to: ' + process.env.CUSTOMCONNSTR_MONGOLAB_URI + '/' + "admin");
+                console.log();
+                res.end(JSON.stringify(err));
             }
 
             _.each(result.databases,function(item){
