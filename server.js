@@ -7,7 +7,7 @@ http.createServer(function (req, res) {
         next(db);
     };
 
-    connect(admin, function(db) {
+    connect("admin", function(db) {
         var out = [];
 
         db.admin.listDatabases(function(err, result){
