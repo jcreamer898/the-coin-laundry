@@ -20,6 +20,7 @@ app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(app.router);
+app.use(express.cookieSession());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // development only
@@ -28,6 +29,7 @@ if ('development' == app.get('env')) {
 }
 
 app.get('/', routes.index);
+app.get('/oauth', routes.oauth);
 app.get('/authorize', routes.authorize);
 app.get('/users', user.list);
 
