@@ -19,7 +19,7 @@ exports.index = function(req, res) {
             req.session.oauth_access_token,
             req.session.oauth_access_token_secret, 
             function(err, data, response) {
-                req.json(data);
+                res.json(data);
             });
     }
     else {
