@@ -1,0 +1,7 @@
+{
+  "name": "The Coin Laundry",
+  "description": "A way to manage the awesome",
+  "dependencies": {
+    "bootstrap": "~3.0.0"
+  }
+}
