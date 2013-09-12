@@ -4,8 +4,28 @@
  */
 var OAuth = require('oauth').OAuth;
 
-exports.index = function(req, res){
-  res.render('index', { title: 'Express' });
+exports.index = function(req, res) {
+    if (req.session.oauth_token) {
+        //http://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_keys=nfl/teams
+        var oa = new OAuth(req.session.oa._requestUrl,
+            req.session.oa._accessUrl,
+            req.session.oa._consumerKey,
+            req.session.oa._consumerSecret,
+            req.session.oa._version,
+            req.session.oa._authorize_callback,
+            req.session.oa._signatureMethod);
+
+        oa.get('http://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_keys=nfl/teams'
+            req.session.oauth_access_token,
+            req.session.oauth_access_token_secret, 
+            function(err, data, response) {
+                req.json(data);
+            });
+    }
+    else {
+        res.render('index', { title: 'Express' });    
+    }
+    
 };
 
 exports.oauth = function(req, res) {
