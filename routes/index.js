@@ -36,7 +36,7 @@ exports.oauth = function(req, res) {
         'cda4f2845d41c1fe43e380a68d9acf793b387cd3',
         '1.0',
         'http://thecoinlaundry.azurewebsites.net/authorize',
-        'PLAINTEXT'
+        'HMAC-SHA1'
     );
 
     oa.getOAuthRequestToken(function(error, oauth_token, oauth_token_secret, results) {
