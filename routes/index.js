@@ -20,7 +20,7 @@ exports.index = function(req, res){
 };
 
 exports.authorize = function(req, res) {
-    oauth.getOAuthRequestToken(function() {
-        console.log(req);
+    oauth.getOAuthRequestToken(function(error, oauth_token, oauth_token_secret, results) {
+        res.json(oauth_token);
     });
 };
