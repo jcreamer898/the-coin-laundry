@@ -19,7 +19,7 @@ exports.oauth = function(req, res) {
         'PLAINTEXT'
     );
 
-    oauth.getOAuthRequestToken(function(error, oauth_token, oauth_token_secret, results) {
+    oa.getOAuthRequestToken(function(error, oauth_token, oauth_token_secret, results) {
         req.session.oa = oa;
         req.session.oauth_token = oauth_token;
         req.session.oauth_token_secret = oauth_token_secret;
