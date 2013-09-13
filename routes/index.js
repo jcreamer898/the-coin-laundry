@@ -80,10 +80,7 @@ exports.authorize = function(req, res) {
                 req.cookies.access_token = oauth_access_token;
                 req.session.oauth_access_token_secret = oauth_access_token_secret;
 
-                res.json({
-                    "accessToken": oauth_access_token,
-                    "accessTokenSecret": oauth_access_token_secret
-                });
+                res.json(arguments);
             }
     });
 };
