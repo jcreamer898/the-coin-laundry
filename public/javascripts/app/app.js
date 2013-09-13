@@ -54,7 +54,6 @@
                 
             });
 
-            console.log(teams);
             $scope.teams = teams;
         });
     });

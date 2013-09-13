@@ -21,8 +21,8 @@ app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
-app.use(express.cookieParser('keyboard cat'));
-app.use(express.session());
+app.use(express.cookieParser());
+app.use(express.cookieSession({ key: "coinlaundry", secret: "theleague", proxy: true }));
 app.use(function(req, res, next) {
     if (!req.session.oauth_access_token && !~req.url.indexOf('oauth') && !~req.get('host').indexOf('local')) {
         res.redirect('/oauth');
