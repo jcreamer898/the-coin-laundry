@@ -25,7 +25,7 @@ exports.index = function(req, res) {
                     err.access_token_secret = req.session.oauth_access_token_secret
                     return res.json(err);
                 }
-                res.send(data);
+                // res.send(data);
             });
     }
     else {
