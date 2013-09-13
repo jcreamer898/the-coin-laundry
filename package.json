@@ -8,6 +8,7 @@
   "dependencies": {
     "express": "3.3.5",
     "ejs": "*",
-    "oauth": "~0.9.10"
+    "oauth": "~0.9.10",
+    "underscore": "~1.5.2"
   }
 }
