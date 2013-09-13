@@ -24,10 +24,7 @@ exports.index = function(req, res) {
                 data.access_token_secret = req.session.oauth_access_token_secret;
                 data.foo = 'bar';
                 
-                res.json({
-                    access_token: req.session.oauth_access_token,
-                    access_token_secret: req.session.oauth_access_token_secret
-                });
+                res.json(data);
             });
     }
     else {
@@ -39,7 +36,7 @@ exports.index = function(req, res) {
 exports.oauth = function(req, res) {
     var oa = new OAuth(
         'https://api.login.yahoo.com/oauth/v2/get_request_token',
-        'https://api.login.yahoo.com/oauth/v2/request_auth',
+        'https://api.login.yahoo.com/oauth/v2/get_token',
         'dj0yJmk9MjNqVU5LdUh2Z3kxJmQ9WVdrOWJqbEtXbkkxTTJVbWNHbzlNelE1TnpJNE1UWXkmcz1jb25zdW1lcnNlY3JldCZ4PTdh',
         'fddb72a3210b6508fcb5fe685af92281184c16ee',
         '1.0',
@@ -80,7 +77,7 @@ exports.authorize = function(req, res) {
                 req.cookies.access_token = oauth_access_token;
                 req.session.oauth_access_token_secret = oauth_access_token_secret;
 
-                res.json(arguments);
+                res.redirect('/');
             }
     });
 };
