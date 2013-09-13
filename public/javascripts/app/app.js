@@ -1,6 +1,6 @@
 (function(global) {
     var app = angular.module('app', []),
-        PROD = !!process.env.CUSTOMCONNSTR_MONGOLAB_URI;
+        PROD = !~window.location.href.indexOf('local');
 
     var apiRoutes = {
         myTeam: PROD ? '/api/myteam' : '/javascripts/fixtures/myteam.json'
