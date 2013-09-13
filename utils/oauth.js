@@ -30,10 +30,12 @@ exports.get = get = function(session) {
 };
 
 exports.checkLogin = function(req, res, next) {
+    // No token has been created yet
     if (!req.session.oauth_access_token && !~req.url.indexOf('oauth') && isProd(req)) {
         res.redirect('/oauth');
     }
-    else if (req.session.oauth_token && isProd(req)) {
+    // Check the token
+    else if (req.session.oauth_token && req.session.oauth_access_token && isProd(req)) {
         console.log('refreshing token', req.session.oauth_token, req.session.oauth_access_token_secret);
         get(req.session).getOAuthAccessToken(
             req.session.oauth_token, 
