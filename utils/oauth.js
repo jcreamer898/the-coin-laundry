@@ -2,7 +2,7 @@ var OAuth = require('oauth').OAuth,
     config = require('../config.json'),
     get,
     isProd = function(req) {
-        !~req.get('host').indexOf('local');
+        return !~req.get('host').indexOf('local');
     };
 
 exports.get = get = function(session) {
