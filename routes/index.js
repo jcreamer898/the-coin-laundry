@@ -5,7 +5,7 @@
 var OAuth = require('oauth').OAuth;
 
 exports.index = function(req, res) {
-    res.render('index', { title: 'Express' });    
+    res.render('index', { title: 'Express' });
 };
 
 exports.oauth = function(req, res) {

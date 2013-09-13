@@ -23,6 +23,12 @@ app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(express.cookieParser('keyboard cat'));
 app.use(express.session());
+app.use(function(req, res, next) {
+    if (!req.session.oauth_access_token && !~req.url.indexOf('oauth') && !~req.get('host').indexOf('local')) {
+        res.redirect('/oauth');
+    }
+    next()
+});
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 // development only
