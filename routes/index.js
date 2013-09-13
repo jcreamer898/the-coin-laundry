@@ -4,11 +4,6 @@
  */
 var OAuth = require('oauth').OAuth;
 
-var connect = function(next){
-    var db = mongo.db("mongodb://MongoLab-25:Zqy8wu31J5C6E9Dhxf6Q4t2cyf8ckVkS8dWrnCiMOvw-@ds027748.mongolab.com:27748/MongoLab-25", {safe : true});
-    next(db);
-};
-
 exports.index = function(req, res) {
     if (req.session.oauth_token) {
         //http://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_keys=nfl/teams
