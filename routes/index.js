@@ -36,8 +36,8 @@ exports.oauth = function(req, res) {
     var oa = new OAuth(
         'https://api.login.yahoo.com/oauth/v2/get_request_token',
         'https://api.login.yahoo.com/oauth/v2/request_auth',
-        'dj0yJmk9Tzh5WDgxTXBGRHJzJmQ9WVdrOVMxTmxTMkpoTlRRbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmeD0yMg--',
-        'cda4f2845d41c1fe43e380a68d9acf793b387cd3',
+        'dj0yJmk9MjNqVU5LdUh2Z3kxJmQ9WVdrOWJqbEtXbkkxTTJVbWNHbzlNelE1TnpJNE1UWXkmcz1jb25zdW1lcnNlY3JldCZ4PTdh--',
+        'fddb72a3210b6508fcb5fe685af92281184c16ee',
         '1.0',
         'http://thecoinlaundry.azurewebsites.net/authorize',
         'HMAC-SHA1'
