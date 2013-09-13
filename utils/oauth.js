@@ -3,7 +3,7 @@ var OAuth = require('oauth').OAuth,
     get;
 
 exports.get = get = function(session) {
-    var oa = req.session.oa ? 
+    var oa = session.oa ? 
         new OAuth(
             session.oa._requestUrl,
             session.oa._accessUrl,

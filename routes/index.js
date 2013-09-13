@@ -9,7 +9,7 @@ exports.index = function(req, res) {
 };
 
 exports.oauth = function(req, res) {
-    oa.get().getOAuthRequestToken(function(error, oauth_token, oauth_token_secret, results) {
+    oa.get(req.session).getOAuthRequestToken(function(error, oauth_token, oauth_token_secret, results) {
         req.session.oa = oa.get();
         req.session.oauth_token = oauth_token;
         req.session.oauth_token_secret = oauth_token_secret;
@@ -19,7 +19,7 @@ exports.oauth = function(req, res) {
 };
 
 exports.authorize = function(req, res) {
-    oa.get().getOAuthAccessToken(
+    oa.get(req.session).getOAuthAccessToken(
         req.session.oauth_token, 
         req.session.oauth_token_secret, 
         req.param('oauth_verifier'),
