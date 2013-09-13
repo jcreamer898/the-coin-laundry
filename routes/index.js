@@ -29,7 +29,7 @@ exports.teams = function(req, res) {
                 return res.json(err);
             }
             
-            res.send(data);
+            res.send(req.session);
         });
 };
 
