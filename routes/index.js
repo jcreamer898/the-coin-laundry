@@ -5,32 +5,35 @@
 var OAuth = require('oauth').OAuth;
 
 exports.index = function(req, res) {
-    res.render('index', { title: 'Express' });    
-};
+    if (req.session.oauth_token) {
+        //http://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_keys=nfl/teams
+        var oa = new OAuth(req.session.oa._requestUrl,
+            req.session.oa._accessUrl,
+            req.session.oa._consumerKey,
+            req.session.oa._consumerSecret,
+            req.session.oa._version,
+            req.session.oa._authorize_callback,
+            req.session.oa._signatureMethod);
 
-exports.teams = function(req, res) {
-    var oa = new OAuth(req.session.oa._requestUrl,
-        req.session.oa._accessUrl,
-        req.session.oa._consumerKey,
-        req.session.oa._consumerSecret,
-        req.session.oa._version,
-        req.session.oa._authorize_callback,
-        req.session.oa._signatureMethod);
-
-    oa.getProtectedResource('http://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_keys=nfl/teams?output=json',
-        'GET',
-        req.session.oauth_access_token,
-        req.session.oauth_access_token_secret, 
-        function(err, data, response) {
-            data.access_token = req.session.oauth_access_token;
-            data.access_token_secret = req.session.oauth_access_token_secret
-            
-            if (err) {
-                return res.json(err);
-            }
-            
-            res.send(req.session);
-        });
+        oa.getProtectedResource('http://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_keys=nfl/teams?output=json',
+            'GET',
+            req.session.oauth_access_token,
+            req.session.oauth_access_token_secret, 
+            function(err, data, response) {
+                data.access_token = req.session.oauth_access_token;
+                data.access_token_secret = req.session.oauth_access_token_secret
+                
+                if (err) {
+                    return res.json(err);
+                }
+                
+                res.send(req.session);
+            });
+    }
+    else {
+        res.render('index', { title: 'Express' });    
+    }
+    
 };
 
 exports.oauth = function(req, res) {
