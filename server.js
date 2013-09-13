@@ -29,6 +29,7 @@ if ('development' == app.get('env')) {
 }
 
 app.get('/', routes.index);
+app.get('/teams', routes.teams);
 app.get('/oauth', routes.oauth);
 app.get('/authorize', routes.authorize);
 app.get('/users', user.list);
