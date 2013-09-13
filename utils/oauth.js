@@ -35,7 +35,7 @@ exports.checkLogin = function(req, res, next) {
     }
     else if (isProd(req)) {
         console.log('refreshing token');
-        get().getOAuthAccessToken(
+        get(req.session).getOAuthAccessToken(
             req.session.oauth_token, 
             req.session.oauth_token_secret, 
             req.param('oauth_verifier'),
