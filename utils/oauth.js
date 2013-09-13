@@ -38,7 +38,7 @@ exports.checkLogin = function(req, res, next) {
         get(req.session).getOAuthAccessToken(
             req.session.oauth_token, 
             req.session.oauth_token_secret, 
-            req.param('oauth_verifier'),
+            req.session.oauth_verifier ,
             function(error, oauth_access_token, oauth_access_token_secret, results2) {
                 if(error) {
                     res.json(error);

@@ -6,7 +6,7 @@ var oa = require('../utils/oauth');
 
 exports.index = function(req, res) {
     res.render('index', { title: 'Express' });
-};
+};  
 
 exports.oauth = function(req, res) {
     oa.get(req.session).getOAuthRequestToken(function(error, oauth_token, oauth_token_secret, results) {
@@ -19,6 +19,8 @@ exports.oauth = function(req, res) {
 };
 
 exports.authorize = function(req, res) {
+    req.session.oauth_verifier = req.param('oauth_verifier');
+    
     oa.get(req.session).getOAuthAccessToken(
         req.session.oauth_token, 
         req.session.oauth_token_secret, 
