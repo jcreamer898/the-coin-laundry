@@ -15,7 +15,7 @@ exports.index = function(req, res) {
             req.session.oa._authorize_callback,
             req.session.oa._signatureMethod);
 
-        oa.get('http://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_keys=242/leagues',
+        oa.get('http://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/teams',
             req.session.oauth_access_token,
             req.session.oauth_access_token_secret, 
             function(err, data, response) {
