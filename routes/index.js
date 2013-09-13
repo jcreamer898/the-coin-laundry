@@ -24,7 +24,7 @@ exports.index = function(req, res) {
                 data.access_token_secret = req.session.oauth_access_token_secret;
                 data.foo = 'bar';
                 
-                res.send(data);
+                res.json(data);
             });
     }
     else {
