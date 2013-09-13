@@ -2,25 +2,15 @@
 /*
  * GET home page.
  */
-var OAuth = require('oauth').OAuth;
+var oa = require('../utils/oauth');
 
 exports.index = function(req, res) {
     res.render('index', { title: 'Express' });
 };
 
 exports.oauth = function(req, res) {
-    var oa = new OAuth(
-        'https://api.login.yahoo.com/oauth/v2/get_request_token',
-        'https://api.login.yahoo.com/oauth/v2/get_token',
-        'dj0yJmk9MjNqVU5LdUh2Z3kxJmQ9WVdrOWJqbEtXbkkxTTJVbWNHbzlNelE1TnpJNE1UWXkmcz1jb25zdW1lcnNlY3JldCZ4PTdh',
-        'fddb72a3210b6508fcb5fe685af92281184c16ee',
-        '1.0',
-        'http://thecoinlaundry.azurewebsites.net/authorize',
-        'HMAC-SHA1'
-    );
-
-    oa.getOAuthRequestToken(function(error, oauth_token, oauth_token_secret, results) {
-        req.session.oa = oa;
+    oa.get().getOAuthRequestToken(function(error, oauth_token, oauth_token_secret, results) {
+        req.session.oa = oa.get();
         req.session.oauth_token = oauth_token;
         req.session.oauth_token_secret = oauth_token_secret;
         
@@ -29,15 +19,7 @@ exports.oauth = function(req, res) {
 };
 
 exports.authorize = function(req, res) {
-    var oa = new OAuth(req.session.oa._requestUrl,
-        req.session.oa._accessUrl,
-        req.session.oa._consumerKey,
-        req.session.oa._consumerSecret,
-        req.session.oa._version,
-        req.session.oa._authorize_callback,
-        req.session.oa._signatureMethod);
-
-    oa.getOAuthAccessToken(
+    oa.get().getOAuthAccessToken(
         req.session.oauth_token, 
         req.session.oauth_token_secret, 
         req.param('oauth_verifier'),

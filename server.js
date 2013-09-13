@@ -10,6 +10,7 @@ var api = require('./routes/api');
 var http = require('http');
 var path = require('path')
 var _ = require('underscore');
+var oa = require('./utils/oauth');
 
 var app = express();
 
@@ -23,12 +24,7 @@ app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(express.cookieParser());
 app.use(express.cookieSession({ key: "coinlaundry", secret: "theleague", proxy: true }));
-app.use(function(req, res, next) {
-    if (!req.session.oauth_access_token && !~req.url.indexOf('oauth') && !~req.get('host').indexOf('local')) {
-        res.redirect('/oauth');
-    }
-    next()
-});
+app.use(oa.checkLogin);
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 // development only
