@@ -38,7 +38,8 @@ app.get('/authorize', routes.authorize);
 app.get('/users', user.list);
 
 _.each(api, function(route, name) {
-    app.get('/api/' + name, route);
+    route.get && app.get('/api/' + name, route.get);
+    route.post && app.post('/api/' + name, route.post);
 });
 
 http.createServer(app).listen(app.get('port'), function(){

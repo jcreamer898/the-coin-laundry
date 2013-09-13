@@ -16,6 +16,10 @@
                 templateUrl: '/javascripts/views/myteam.html',
                 controller: 'MyTeamsController'
             })
+            .when('/sandbox', {
+                templateUrl: 'javascripts/views/sandbox.html',
+                controller: 'SandboxController'
+            })
             .otherwise({
                 template: '<h1>Not found</h1>'
             });
@@ -24,6 +28,23 @@
     app.controller('HomeController', function() {
 
     });
+
+    app.controller('SandboxController', function($scope, $http) {
+        $scope.url = 'http://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_keys=nfl/teams?format=json';
+
+        $scope.send = function(url) {
+            $http({
+                method: 'post',
+                url: '/api/sandbox',
+                data: {
+                    url: url
+                }
+            }).success(function(data) {
+                $scope.results = JSON.stringify(data, null, 4);
+            });
+        };
+    });
+
 
     app.controller('MyTeamsController', function($scope, $http) {
         $http({

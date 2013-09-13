@@ -20,11 +20,11 @@ exports.oauth = function(req, res) {
 
 exports.authorize = function(req, res) {
     req.session.oauth_verifier = req.param('oauth_verifier');
-    
+
     oa.get(req.session).getOAuthAccessToken(
         req.session.oauth_token, 
         req.session.oauth_token_secret, 
-        req.param('oauth_verifier'),
+        req.session.oauth_verifier,
         function(error, oauth_access_token, oauth_access_token_secret, results2) {
             if(error) {
                 res.json(error);
