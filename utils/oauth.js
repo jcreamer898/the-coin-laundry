@@ -34,6 +34,7 @@ exports.checkLogin = function(req, res, next) {
         res.redirect('/oauth');
     }
     else if (isProd(req)) {
+        console.log('refreshing token');
         get().getOAuthAccessToken(
             req.session.oauth_token, 
             req.session.oauth_token_secret, 
@@ -54,6 +55,7 @@ exports.checkLogin = function(req, res, next) {
         });
     }
     else {
+        console.log('local');
         next();
     }
 };
