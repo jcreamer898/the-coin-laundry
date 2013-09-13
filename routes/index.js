@@ -27,7 +27,7 @@ exports.index = function(req, res) {
                     return res.json(err);
                 }
                 
-                res.send(req.session);
+                res.send(data);
             });
     }
     else {
