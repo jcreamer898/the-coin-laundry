@@ -21,6 +21,8 @@ exports.index = function(req, res) {
             req.session.oauth_access_token_secret, 
             function(err, data, response) {
                 if (err) {
+                    err.access_token = req.session.oauth_access_token;
+                    err.access_token_secret = req.session.oauth_access_token_secret
                     return res.json(err);
                 }
                 res.send(data);
