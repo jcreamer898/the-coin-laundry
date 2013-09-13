@@ -15,7 +15,7 @@ exports.index = function(req, res) {
             req.session.oa._authorize_callback,
             req.session.oa._signatureMethod);
 
-        oa.getProtectedResource('http://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/teams?callback=json',
+        oa.getProtectedResource('http://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/teams?output=json',
             'GET',
             req.session.oauth_access_token,
             req.session.oauth_access_token_secret, 
