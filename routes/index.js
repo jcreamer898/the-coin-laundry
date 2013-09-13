@@ -75,11 +75,15 @@ exports.authorize = function(req, res) {
             }
             else {
                 // store the access token in the session
+                // 
                 req.session.oauth_access_token = oauth_access_token;
                 req.cookies.access_token = oauth_access_token;
                 req.session.oauth_access_token_secret = oauth_access_token_secret;
 
-                res.redirect("/");
+                res.json({
+                    access_token: req.session.oauth_access_token,
+                    access_token_secret: req.session.oauth_access_token_secret
+                });
             }
     });
 };
