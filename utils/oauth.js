@@ -1,9 +1,12 @@
 var OAuth = require('oauth').OAuth,
     config = require('../config.json'),
-    get;
+    get,
+    isProd = function(req) {
+        !~req.get('host').indexOf('local');
+    };
 
 exports.get = get = function(session) {
-    var oa = session.oa ? 
+    var oa = (session || {}).oa ? 
         new OAuth(
             session.oa._requestUrl,
             session.oa._accessUrl,
@@ -27,10 +30,10 @@ exports.get = get = function(session) {
 };
 
 exports.checkLogin = function(req, res, next) {
-    if (!req.session.oauth_access_token && !~req.url.indexOf('oauth') && !~req.get('host').indexOf('local')) {
+    if (!req.session.oauth_access_token && !~req.url.indexOf('oauth') && isProd(req)) {
         res.redirect('/oauth');
     }
-    else {
+    else if (isProd(req)) {
         get().getOAuthAccessToken(
             req.session.oauth_token, 
             req.session.oauth_token_secret, 
@@ -49,5 +52,8 @@ exports.checkLogin = function(req, res, next) {
                     next();
                 }
         });
+    }
+    else {
+        next();
     }
 };
