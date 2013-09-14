@@ -35,6 +35,7 @@ exports.authorize = function(req, res) {
                 req.session.oauth_access_token = oauth_access_token;
                 req.cookies.access_token = oauth_access_token;
                 req.session.oauth_access_token_secret = oauth_access_token_secret;
+                req.session.timestamp = new Date();
 
                 res.redirect('/');
             }
