@@ -3,8 +3,8 @@
         PROD = !~window.location.href.indexOf('local');
 
     var apiRoutes = {
-        myTeams: PROD ? '/api/teams' : '/javascripts/fixtures/teams.json',
-        myTeam:  PROD ? '/api/team' : '/javascripts/fixtures/team.json',
+        teams: PROD ? '/api/teams' : '/javascripts/fixtures/teams.json',
+        team:  PROD ? '/api/team' : '/javascripts/fixtures/team.json',
     };
 
     app.config(function($routeProvider) {
@@ -50,7 +50,7 @@
     app.controller('MyTeamsController', function($scope, $http) {
         $http({
             method: 'get',
-            url: apiRoutes.myTeam
+            url: apiRoutes.teams
         }).success(function(data) {
             $scope.teams = data;
         });
