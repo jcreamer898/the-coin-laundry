@@ -1,11 +1,11 @@
 var oa = require('../utils/oauth'),
     _ = require('underscore');
 
-exports.team = {
+exports['team/:id'] = {
     get: function(req, res) {
         var team = req.get('host').split('/').pop();
 
-        oa.get(req.session).getProtectedResource('http://fantasysports.yahooapis.com/fantasy/v2/team/TEAM/players?format=json'.replace(/TEAM/, team),
+        oa.get(req.session).getProtectedResource('http://fantasysports.yahooapis.com/fantasy/v2/team/TEAM/players?format=json'.replace(/TEAM/, req.params.id),
             'GET',
             req.session.oauth_access_token,
             req.session.oauth_access_token_secret, 
