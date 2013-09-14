@@ -4,12 +4,13 @@ var oa = require('../utils/oauth'),
 exports['teams/:id'] = {
     get: function(req, res) {
         var team = req.get('host').split('/').pop();
-        console.log(req.params.id);
-        oa.get(req.session).getProtectedResource('http://fantasysports.yahooapis.com/fantasy/v2/team/TEAM/players?format=json'.replace(/TEAM/, req.params.id),
+
+        oa.get(req.session).getProtectedResource('http://fantasysports.yahooapis.com/fantasy/v2/team/TEAM/players?format=json'.replace("TEAM", req.params.id),
             'GET',
             req.session.oauth_access_token,
             req.session.oauth_access_token_secret, 
             function(err, data, response) {
+                console.log(data);
                 var teamData = data.fantasy_content.team[0],
                     playerData = data.fantasy_content.team[1].players,
                     players = [],
