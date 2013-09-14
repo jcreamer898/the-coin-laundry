@@ -1,5 +1,5 @@
 var OAuth = require('oauth').OAuth,
-    config = require('../config.json'),
+    config = require('../config.js'),
     get,
     isProd = function(req) {
         return !~req.get('host').indexOf('local');
@@ -31,7 +31,6 @@ exports.get = get = function(session) {
 
 exports.checkLogin = function(req, res, next) {
     // No token has been created yet
-    console.log(req.session.timestamp, Math.round(((new Date() - new Date(req.session.timestamp)) % 86400000) / 3600000));
     if ((!req.session.oauth_access_token && !req.session.timestamp ||
         Math.round(((new Date() - new Date(req.session.timestamp)) % 86400000) / 3600000) >= 1) && 
         isProd(req) && !~req.url.indexOf('oauth')) {

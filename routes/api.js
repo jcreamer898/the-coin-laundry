@@ -1,4 +1,5 @@
-var oa = require('../utils/oauth');
+var oa = require('../utils/oauth'),
+    _ = require('underscore');
 
 exports.myteam = {
     get: function(req, res) {
@@ -7,7 +8,30 @@ exports.myteam = {
             req.session.oauth_access_token,
             req.session.oauth_access_token_secret, 
             function(err, data, response) {
-                res.json(JSON.parse(data));
+                var teamsData = JSON.parse(data).fantasy_content.users[0]
+                    .user[1]
+                    .games[0]
+                    .game[1]
+                    .teams,
+                teams = [];
+
+                _.each(teamsData, function(obj) {
+                    var teamData = {};
+
+                    if (obj.team) {
+                        _.each(obj.team[0], function(kvp) {
+                            if (kvp === Object(kvp)) {
+                                _.each(kvp, function(value, key) {
+                                    teamData[key] = value;
+                                });
+                            }
+                        });
+
+                        teams.push(teamData);
+                    }
+                });
+
+                res.json(teams);
             });
     }
 };

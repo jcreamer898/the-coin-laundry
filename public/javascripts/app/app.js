@@ -51,31 +51,7 @@
             method: 'get',
             url: apiRoutes.myTeam
         }).success(function(data) {
-            var teamsData = data.fantasy_content.users[0]
-                    .user[1]
-                    .games[0]
-                    .game[1]
-                    .teams,
-                teams = [];
-
-            angular.forEach(teamsData, function(obj) {
-                var teamData = {};
-
-                if (obj.team) {
-                    angular.forEach(obj.team[0], function(kvp) {
-                        if (kvp === Object(kvp)) {
-                            angular.forEach(kvp, function(value, key) {
-                                teamData[key] = value;
-                            });
-                        }
-                    });
-
-                    teams.push(teamData);
-                }
-                
-            });
-
-            $scope.teams = teams;
+            $scope.teams = data;
         });
     });
 
