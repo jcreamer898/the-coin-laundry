@@ -25,12 +25,13 @@ exports.get = get = function(session) {
             config.callback,
             config.encryption
         )
-    console.log((session || {}).oa);
+    
     return oa
 };
 
 exports.checkLogin = function(req, res, next) {
     // No token has been created yet
+    console.log(Math.round(((new Date() - req.session.timestamp) % 86400000) / 3600000));
     if ((!req.session.oauth_access_token && !~req.url.indexOf('oauth') && !req.session.timestamp ||
         Math.round(((new Date() - req.session.timestamp) % 86400000) / 3600000) >= 1) && 
         isProd(req)) {
