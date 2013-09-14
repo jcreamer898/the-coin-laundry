@@ -4,7 +4,7 @@
 
     var apiRoutes = {
         teams: PROD ? '/api/teams' : '/javascripts/fixtures/teams.json',
-        team:  PROD ? '/api/team' : '/javascripts/fixtures/team.json',
+        team:  PROD ? '/api/teams' : '/javascripts/fixtures/team.json',
     };
 
     app.config(function($routeProvider) {
@@ -13,9 +13,13 @@
                 templateUrl: '/javascripts/views/home.html',
                 controller: 'HomeController'
             })
-            .when('/myteams', {
-                templateUrl: '/javascripts/views/myteam.html',
-                controller: 'MyTeamsController'
+            .when('/teams', {
+                templateUrl: '/javascripts/views/teams.html',
+                controller: 'TeamsController'
+            })
+            .when('/teams/:id', {
+                templateUrl: '/javascripts/views/team.html',
+                controller: 'TeamController'
             })
             .when('/sandbox', {
                 templateUrl: 'javascripts/views/sandbox.html',
@@ -24,6 +28,17 @@
             .otherwise({
                 template: '<h1>Not found</h1>'
             });
+    });
+
+    app.factory('FantasyService', function($http) {
+        return {
+            team: function() {
+                return $http({
+                    method: 'get',
+                    url: PROD ? apiRoutes.team + '/' + $routeParams.id : '/javascripts/fixtures/team.json'
+                });
+            }
+        }
     });
 
     app.controller('HomeController', function() {
@@ -47,12 +62,50 @@
     });
 
 
-    app.controller('MyTeamsController', function($scope, $http) {
+    app.controller('TeamsController', function($scope, $http) {
         $http({
             method: 'get',
             url: apiRoutes.teams
         }).success(function(data) {
             $scope.teams = data;
+        });
+    });
+
+    app.controller('TeamController', function($scope, FantasyService, $routeParams) {
+        FantasyService.team().success(function(data) {
+            var teamData = data.fantasy_content.team[0],
+                playerData = data.fantasy_content.team[1].players,
+                players = [],
+                team = {};
+
+            angular.forEach(teamData, function(kvp) {
+                angular.forEach(kvp, function(value, key) {
+                    if (kvp === Object(kvp)) {
+                        team[key] = value;
+                    }
+                });
+            });
+
+            
+            angular.forEach(playerData, function(p) {
+                if (p.player) {
+                    var player = {};
+
+                    angular.forEach(p.player[0], function(kvp) {
+                        angular.forEach(kvp, function(value, key) {
+                            if (kvp === Object(kvp)) {
+                                player[key] = value;
+                            }
+                        });
+                    });
+
+                    players.push(player);
+                }
+            });
+
+            team.players = players;
+
+            $scope.team = team;
         });
     });
 
