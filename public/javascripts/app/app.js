@@ -73,7 +73,7 @@
 
     app.controller('TeamController', function($scope, FantasyService, $routeParams) {
         FantasyService.team().success(function(data) {
-            $scope.team = team;
+            $scope.team = data;
         });
     });
 
