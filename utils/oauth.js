@@ -25,7 +25,7 @@ exports.get = get = function(session) {
             config.callback,
             config.encryption
         )
-    console.log(session.oa);
+    console.log((session || {}).oa);
     return oa
 };
 
