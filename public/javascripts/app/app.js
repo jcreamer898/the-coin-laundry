@@ -30,7 +30,7 @@
             });
     });
 
-    app.factory('FantasyService', function($http) {
+    app.factory('FantasyService', function($http, $routeParams) {
         return {
             team: function() {
                 return $http({
