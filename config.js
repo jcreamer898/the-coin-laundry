@@ -1,4 +1,4 @@
-exports = {
+module.exports = {
     "accessTokenUrl": "https://api.login.yahoo.com/oauth/v2/get_request_token",
     "requestTokenUrl": "https://api.login.yahoo.com/oauth/v2/get_token",
     "oauthKey": "dj0yJmk9MjNqVU5LdUh2Z3kxJmQ9WVdrOWJqbEtXbkkxTTJVbWNHbzlNelE1TnpJNE1UWXkmcz1jb25zdW1lcnNlY3JldCZ4PTdh",
