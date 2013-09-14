@@ -31,7 +31,7 @@ exports.get = get = function(session) {
 
 exports.checkLogin = function(req, res, next) {
     // No token has been created yet
-    if ((!req.session.oauth_access_token && !~req.url.indexOf('oauth') ||
+    if ((!req.session.oauth_access_token && !~req.url.indexOf('oauth') && !req.session.timestamp ||
         Math.round(((new Date() - req.session.timestamp) % 86400000) / 3600000) >= 1) && 
         isProd(req)) {
         res.redirect('/oauth');
