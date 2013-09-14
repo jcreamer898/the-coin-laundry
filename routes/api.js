@@ -43,7 +43,7 @@ exports['teams/:id'] = {
 
                 team.players = players;
 
-                res.json(teams);
+                res.json(team);
             });
     }
 };
