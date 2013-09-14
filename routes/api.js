@@ -10,8 +10,8 @@ exports['teams/:id'] = {
             req.session.oauth_access_token,
             req.session.oauth_access_token_secret, 
             function(err, data, response) {
-                console.log(data);
-                var teamData = data.fantasy_content.team[0],
+                var data = JSON.parse(data),
+                    teamData = data.fantasy_content.team[0],
                     playerData = data.fantasy_content.team[1].players,
                     players = [],
                     team = {};
