@@ -73,38 +73,6 @@
 
     app.controller('TeamController', function($scope, FantasyService, $routeParams) {
         FantasyService.team().success(function(data) {
-            var teamData = data.fantasy_content.team[0],
-                playerData = data.fantasy_content.team[1].players,
-                players = [],
-                team = {};
-
-            angular.forEach(teamData, function(kvp) {
-                angular.forEach(kvp, function(value, key) {
-                    if (kvp === Object(kvp)) {
-                        team[key] = value;
-                    }
-                });
-            });
-
-            
-            angular.forEach(playerData, function(p) {
-                if (p.player) {
-                    var player = {};
-
-                    angular.forEach(p.player[0], function(kvp) {
-                        angular.forEach(kvp, function(value, key) {
-                            if (kvp === Object(kvp)) {
-                                player[key] = value;
-                            }
-                        });
-                    });
-
-                    players.push(player);
-                }
-            });
-
-            team.players = players;
-
             $scope.team = team;
         });
     });

@@ -10,28 +10,37 @@ exports.team = {
             req.session.oauth_access_token,
             req.session.oauth_access_token_secret, 
             function(err, data, response) {
-                var teamsData = JSON.parse(data).fantasy_content.users[0]
-                    .user[1]
-                    .games[0]
-                    .game[1]
-                    .teams,
-                teams = [];
+                var teamData = data.fantasy_content.team[0],
+                    playerData = data.fantasy_content.team[1].players,
+                    players = [],
+                    team = {};
 
-                _.each(teamsData, function(obj) {
-                    var teamData = {};
+                _.each(teamData, function(kvp) {
+                    _.each(kvp, function(value, key) {
+                        if (kvp === Object(kvp)) {
+                            team[key] = value;
+                        }
+                    });
+                });
 
-                    if (obj.team) {
-                        _.each(obj.team[0], function(kvp) {
-                            if (kvp === Object(kvp)) {
-                                _.each(kvp, function(value, key) {
-                                    teamData[key] = value;
-                                });
-                            }
+                
+                _.each(playerData, function(p) {
+                    if (p.player) {
+                        var player = {};
+
+                        _.each(p.player[0], function(kvp) {
+                            _.each(kvp, function(value, key) {
+                                if (kvp === Object(kvp)) {
+                                    player[key] = value;
+                                }
+                            });
                         });
 
-                        teams.push(teamData);
+                        players.push(player);
                     }
                 });
+
+                team.players = players;
 
                 res.json(teams);
             });
