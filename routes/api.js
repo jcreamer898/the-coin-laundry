@@ -1,7 +1,7 @@
 var oa = require('../utils/oauth'),
     _ = require('underscore');
 
-exports['team/:id'] = {
+exports['teams/:id'] = {
     get: function(req, res) {
         var team = req.get('host').split('/').pop();
 
