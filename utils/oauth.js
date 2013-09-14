@@ -5,6 +5,8 @@ var OAuth = require('oauth').OAuth,
         return !~req.get('host').indexOf('local');
     };
 
+console.log(config);
+
 exports.get = get = function(session) {
     var oa = (session || {}).oa ? 
         new OAuth(
