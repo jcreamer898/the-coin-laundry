@@ -3,7 +3,8 @@
         PROD = !~window.location.href.indexOf('local');
 
     var apiRoutes = {
-        myTeam: PROD ? '/api/myteam' : '/javascripts/fixtures/myteam.json'
+        myTeams: PROD ? '/api/teams' : '/javascripts/fixtures/teams.json',
+        myTeam:  PROD ? '/api/team' : '/javascripts/fixtures/team.json',
     };
 
     app.config(function($routeProvider) {
