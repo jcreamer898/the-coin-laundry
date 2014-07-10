@@ -2,6 +2,12 @@
   "name": "The Coin Laundry",
   "description": "A way to manage the awesome",
   "dependencies": {
-    "bootstrap": "~3.0.0"
+    "bootstrap": "~3.0.0",
+    "angular": "~1.2.19",
+    "angular-resource": "~1.2.19",
+    "angular-cookies": "~1.2.19",
+    "angular-sanitize": "~1.2.19",
+    "angular-route": "~1.2.19",
+    "angular-animate": "~1.2.19"
   }
 }

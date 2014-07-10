@@ -3,7 +3,7 @@
         "team_key": "314.l.44054.t.4",
         "team_id": "4",
         "name": "Holy Hand Grenades",
-        "is_owned_by_current_login": 1,
+        "is_owned_by_current_login": "1",
         "url": "http://football.fantasysports.yahoo.com/f1/44054/4",
         "team_logos": [
             {
@@ -13,11 +13,11 @@
                 }
             }
         ],
-        "number_of_moves": 0,
-        "number_of_trades": 0,
+        "number_of_moves": "0",
+        "number_of_trades": "0",
         "roster_adds": {
             "coverage_type": "week",
-            "coverage_value": 2,
+            "coverage_value": "2",
             "value": "0"
         },
         "managers": [
@@ -35,7 +35,7 @@
         "team_key": "314.l.89539.t.2",
         "team_id": "2",
         "name": "Lord Creamer",
-        "is_owned_by_current_login": 1,
+        "is_owned_by_current_login": "1",
         "url": "http://football.fantasysports.yahoo.com/f1/89539/2",
         "team_logos": [
             {
@@ -46,13 +46,13 @@
             }
         ],
         "division_id": "1",
-        "waiver_priority": 8,
+        "waiver_priority": "8",
         "faab_balance": "100",
-        "number_of_moves": 0,
-        "number_of_trades": 0,
+        "number_of_moves": "0",
+        "number_of_trades": "0",
         "roster_adds": {
             "coverage_type": "week",
-            "coverage_value": 2,
+            "coverage_value": "2",
             "value": "0"
         },
         "managers": [
@@ -70,7 +70,7 @@
         "team_key": "314.l.589233.t.1",
         "team_id": "1",
         "name": "Jonathan Creamer",
-        "is_owned_by_current_login": 1,
+        "is_owned_by_current_login": "1",
         "url": "http://football.fantasysports.yahoo.com/f1/589233/1",
         "team_logos": [
             {
@@ -80,12 +80,12 @@
                 }
             }
         ],
-        "waiver_priority": 5,
-        "number_of_moves": 0,
-        "number_of_trades": 0,
+        "waiver_priority": "5",
+        "number_of_moves": "0",
+        "number_of_trades": "0",
         "roster_adds": {
             "coverage_type": "week",
-            "coverage_value": 2,
+            "coverage_value": "2",
             "value": "0"
         },
         "managers": [

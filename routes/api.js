@@ -1,11 +1,23 @@
 var oa = require('../utils/oauth'),
-    _ = require('underscore');
+    _ = require('underscore'),
+    fs = require('fs');
+
+var isProd = process.env.PROD;
 
 exports['teams/:id'] = {
     get: function(req, res) {
-        var team = req.get('host').split('/').pop();
+        if (!isProd) {
+            fs.readFile(__dirname + "/../fixtures/team.json", function(err, contents) {
+                if (err) throw err;
 
-        oa.get(req.session).getProtectedResource('http://fantasysports.yahooapis.com/fantasy/v2/team/TEAM/players?format=json'.replace("TEAM", req.params.id),
+                res.send(JSON.parse(contents));
+            });
+            return;
+        }
+
+        oa.get(req.session).getProtectedResource(
+            'http://fantasysports.yahooapis.com/fantasy/v2/team/TEAM/players?format=json'
+                .replace("TEAM", req.params.id),
             'GET',
             req.session.oauth_access_token,
             req.session.oauth_access_token_secret, 
@@ -50,6 +62,16 @@ exports['teams/:id'] = {
 
 exports.teams = {
     get: function(req, res) {
+        if (!isProd) {
+            fs.readFile(__dirname + "/../fixtures/teams.json", function(err, contents) {
+                if (err) throw err;
+
+                console.log(contents);
+                res.send(JSON.parse(contents));
+            });
+            return;
+        }
+
         oa.get(req.session).getProtectedResource('http://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_keys=nfl/teams?format=json',
             'GET',
             req.session.oauth_access_token,

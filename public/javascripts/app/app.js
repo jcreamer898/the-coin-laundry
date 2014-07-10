@@ -1,83 +1,40 @@
-(function(global) {
-    var app = angular.module('app', []),
-        PROD = !~window.location.href.indexOf('local');
+define(function(require) {
+    var angular = require("angular"),
+        controllers = require("controllers"),
+        services = require("services"),
+        ngRoute = require("ngRoute"),
+        app;
 
-    var apiRoutes = {
-        teams: PROD ? '/api/teams' : '/javascripts/fixtures/teams.json',
-        team:  PROD ? '/api/teams' : '/javascripts/fixtures/team.json',
-    };
+    app = angular.module("app", [
+            "ngRoute",
+            "coin.controllers",
+            "coin.services" ]);
 
     app.config(function($routeProvider) {
         $routeProvider
             .when('/', {
                 templateUrl: '/javascripts/views/home.html',
-                controller: 'HomeController'
+                controller: 'HomeCtrl',
+                controllerAs: 'home'
             })
             .when('/teams', {
                 templateUrl: '/javascripts/views/teams.html',
-                controller: 'TeamsController'
+                controller: 'TeamsCtrl'
             })
             .when('/teams/:id', {
                 templateUrl: '/javascripts/views/team.html',
-                controller: 'TeamController'
+                controller: 'TeamCtrl'
             })
             .when('/sandbox', {
                 templateUrl: 'javascripts/views/sandbox.html',
-                controller: 'SandboxController'
+                controller: 'SandboxCtrl'
             })
             .otherwise({
                 template: '<h1>Not found</h1>'
             });
     });
 
-    app.factory('FantasyService', function($http, $routeParams) {
-        return {
-            team: function() {
-                return $http({
-                    method: 'get',
-                    url: PROD ? apiRoutes.team + '/' + $routeParams.id : '/javascripts/fixtures/team.json'
-                });
-            }
-        }
-    });
+    window.app = app;
 
-    app.controller('HomeController', function() {
-
-    });
-
-    app.controller('SandboxController', function($scope, $http) {
-        $scope.url = 'http://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_keys=nfl/teams?format=json';
-
-        $scope.send = function(url) {
-            $http({
-                method: 'post',
-                url: '/api/sandbox',
-                data: {
-                    url: url
-                }
-            }).success(function(data) {
-                $scope.results = JSON.stringify(data, null, 4);
-            });
-        };
-    });
-
-
-    app.controller('TeamsController', function($scope, $http) {
-        $http({
-            method: 'get',
-            url: apiRoutes.teams
-        }).success(function(data) {
-            $scope.teams = data;
-        });
-    });
-
-    app.controller('TeamController', function($scope, FantasyService, $routeParams) {
-        FantasyService.team().success(function(data) {
-            $scope.team = data;
-        });
-    });
-
-
-
-    global.app = app;
-}(window));
+    return app;
+});
