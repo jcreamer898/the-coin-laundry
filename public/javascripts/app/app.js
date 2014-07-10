@@ -1,6 +1,7 @@
 define(function(require) {
     var angular = require("angular"),
         controllers = require("controllers"),
+        controllers = require("directives"),
         services = require("services"),
         ngRoute = require("ngRoute"),
         app;
@@ -8,7 +9,8 @@ define(function(require) {
     app = angular.module("app", [
             "ngRoute",
             "coin.controllers",
-            "coin.services" ]);
+            "coin.services",
+            "coin.directives" ]);
 
     app.config(function($routeProvider) {
         $routeProvider
@@ -16,6 +18,11 @@ define(function(require) {
                 templateUrl: '/javascripts/views/home.html',
                 controller: 'HomeCtrl',
                 controllerAs: 'home'
+            })
+            .when('/rules', {
+                templateUrl: '/javascripts/views/rules.html',
+                controller: 'RulesCtrl',
+                controllerAs: 'rules'
             })
             .when('/teams', {
                 templateUrl: '/javascripts/views/teams.html',

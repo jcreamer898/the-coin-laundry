@@ -8,6 +8,7 @@
     "angular-cookies": "~1.2.19",
     "angular-sanitize": "~1.2.19",
     "angular-route": "~1.2.19",
-    "angular-animate": "~1.2.19"
+    "angular-animate": "~1.2.19",
+    "markdown": "~0.5.0"
   }
 }
