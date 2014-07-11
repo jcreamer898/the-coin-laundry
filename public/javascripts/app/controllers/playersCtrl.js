@@ -1,7 +1,7 @@
 define(function (require) {
     var controllers = require("controllers/controllers");
 
-    function PlayersCtrl () {
+    function PlayersCtrl (League) {
 
     }
 

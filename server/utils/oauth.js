@@ -1,11 +1,12 @@
+'use strict';
+
 var OAuth = require('oauth').OAuth,
     config = require('../config.js'),
-    get,
     isProd = function(req) {
         return !~req.get('host').indexOf('local');
     };
 
-exports.get = get = function(session) {
+exports.get = function(session) {
     var oa = (session || {}).oa ? 
         new OAuth(
             session.oa._requestUrl,
@@ -24,9 +25,9 @@ exports.get = get = function(session) {
             config.version,
             config.callback,
             config.encryption
-        )
+        );
     
-    return oa
+    return oa;
 };
 
 exports.checkLogin = function(req, res, next) {
