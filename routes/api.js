@@ -7,6 +7,8 @@ Leagues
 http://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_keys=nfl/leagues?format=json
 Leagues/Teams
 http://fantasysports.yahooapis.com/fantasy/v2/league/331.l.135247/teams?format=json
+Player Search
+http://fantasysports.yahooapis.com/fantasy/v2/league/331.l.135247/players;search=smith?format=json
 */
 
 var isProd = process.env.PROD;

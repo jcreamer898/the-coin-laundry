@@ -3,5 +3,6 @@ define(function (require) {
         TeamsCtrl = require("controllers/teamsCtrl")
         TeamCtrl = require("controllers/teamCtrl"),
         SandboxCtrl = require("controllers/sandboxCtrl"),
-        RulesCtrl = require("controllers/rulesCtrl");
+        RulesCtrl = require("controllers/rulesCtrl"),
+        PlayersCtrl = require("controllers/playersCtrl");
 });

@@ -1,20 +1,22 @@
-<div class="container">
+<div class="container-fluid">
     <h1>My Teams</h1>
 
     <div class="row">
-        <table class="table table-striped">
-            <tr>
-                <th>Name</th>
-                <th># of moves</th>
-                <th># of trades</th>
-                <th>Logo</th>
-            </tr>
-            <tr ng-repeat="team in teams">
-                <td><a href="#/teams/{{team.team_key}}">{{team.name}}</a></td>
-                <td>{{team.number_of_moves}}</td>
-                <td>{{team.number_of_trades}}</td>
-                <td><img ng-src="{{team.team_logos[0].team_logo.url}}" /></td>
-            </tr>
-        </table>
+        <div class="col-md-12">
+            <table class="table table-striped">
+                <tr>
+                    <th>Name</th>
+                    <th># of moves</th>
+                    <th># of trades</th>
+                    <th>Logo</th>
+                </tr>
+                <tr ng-repeat="team in teams">
+                    <td><a href="#/teams/{{team.team_key}}">{{team.name}}</a></td>
+                    <td>{{team.number_of_moves}}</td>
+                    <td>{{team.number_of_trades}}</td>
+                    <td><img ng-src="{{team.team_logos[0].team_logo.url}}" /></td>
+                </tr>
+            </table>
+        </div>
     </div>
 </div>
