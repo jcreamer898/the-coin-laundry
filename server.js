@@ -5,7 +5,8 @@ var express = require('express'),
     _ = require('underscore'),
     oa = require('./server/utils/oauth'),
     app = express(),
-    CoinLaundry = require('./server/coinlaundryApp');
+    CoinLaundry = require('./server/coinlaundryApp'),
+    db = require('./server/db/context').db;
 
 // all environments
 app.set('port', process.env.PORT || 3000);
@@ -30,7 +31,7 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
-app.coinlaundry = new CoinLaundry(app);
+app.coinlaundry = new CoinLaundry(app, db);
 
 app.listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

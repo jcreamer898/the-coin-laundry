@@ -9,6 +9,7 @@
     "express": "3.3.5",
     "ejs": "*",
     "oauth": "~0.9.10",
-    "underscore": "~1.5.2"
+    "underscore": "~1.5.2",
+    "mongoose": "^3.8.12"
   }
 }

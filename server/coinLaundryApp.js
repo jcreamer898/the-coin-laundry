@@ -5,8 +5,9 @@ var routes = require('./routes'),
     api = require('./routes/api'),
     _ = require('underscore');
 
-function FantasyApp(app) {
+function FantasyApp(app, db) {
     this.app = app;
+    this.db = db;
 
     this.initialize();
 }
@@ -19,7 +20,7 @@ FantasyApp.prototype.setupRoutes = function() {
     this.app.get('/', routes.index);
     this.app.get('/oauth', routes.oauth);
     this.app.get('/authorize', routes.authorize);
-    this.app.get('/users', user.list);
+    this.app.get('/api/users', user.list);
 
     _.each(api, function(route, name) {
         _.each(route, function(fn, verb) {
