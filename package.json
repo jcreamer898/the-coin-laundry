@@ -3,8 +3,9 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node app.js"
+    "start": "node server.js"
   },
+  "engine": "node >= 0.10.26",
   "dependencies": {
     "express": "3.3.5",
     "ejs": "*",
