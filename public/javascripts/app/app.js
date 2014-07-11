@@ -24,6 +24,9 @@ define(function(require) {
                 controller: 'RulesCtrl',
                 controllerAs: 'rules'
             })
+            .when('/history', {
+                templateUrl: '/javascripts/views/history.html'
+            })
             .when('/players', {
                 templateUrl: '/javascripts/views/players.html',
                 controller: 'PlayersCtrl',
