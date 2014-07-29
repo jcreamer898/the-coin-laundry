@@ -16,14 +16,14 @@ var isProd = process.env.PROD;
 module.exports = {
     'teams/:id': {
         get: function(req, res) {
-            if (!isProd) {
-                fs.readFile(__dirname + "/../fixtures/team.json", function(err, contents) {
-                    if (err) throw err;
+            // if (!isProd) {
+            //     fs.readFile(__dirname + "/../fixtures/team.json", function(err, contents) {
+            //         if (err) throw err;
 
-                    res.send(JSON.parse(contents));
-                });
-                return;
-            }
+            //         res.send(JSON.parse(contents));
+            //     });
+            //     return;
+            // }
 
             oa.get(req.session).getProtectedResource(
                 'http://fantasysports.yahooapis.com/fantasy/v2/team/TEAM/players?format=json'
@@ -71,15 +71,15 @@ module.exports = {
     },
     teams: {
         get: function(req, res) {
-            if (!isProd) {
-                fs.readFile(__dirname + "/../fixtures/teams.json", function(err, contents) {
-                    if (err) throw err;
+            // if (!isProd) {
+            //     fs.readFile(__dirname + "/../fixtures/teams.json", function(err, contents) {
+            //         if (err) throw err;
 
-                    console.log(contents);
-                    res.send(JSON.parse(contents));
-                });
-                return;
-            }
+            //         console.log(contents);
+            //         res.send(JSON.parse(contents));
+            //     });
+            //     return;
+            // }
 
             oa.get(req.session).getProtectedResource('http://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_keys=nfl/teams?format=json',
                 'GET',

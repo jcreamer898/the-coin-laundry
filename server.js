@@ -22,7 +22,7 @@ app.use(express.cookieSession({
     secret: 'theleague', 
     proxy: true 
 }));
-app.use(oa.checkLogin);
+
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 

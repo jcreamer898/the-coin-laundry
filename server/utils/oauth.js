@@ -1,10 +1,7 @@
 'use strict';
 
 var OAuth = require('oauth').OAuth,
-    config = require('../config.js'),
-    isProd = function(req) {
-        return !~req.get('host').indexOf('local');
-    };
+    config = require('../config.js');
 
 exports.get = function(session) {
     var oa = (session || {}).oa ? 
@@ -30,12 +27,13 @@ exports.get = function(session) {
     return oa;
 };
 
-exports.checkLogin = function(req, res, next) {
+exports.authorize = function(req, res, next) {
     // No token has been created yet
-    if ((!req.session.oauth_access_token && !req.session.timestamp ||
-        Math.round(((new Date() - new Date(req.session.timestamp)) % 86400000) / 3600000) >= 1) && 
-        isProd(req) && !~req.url.indexOf('oauth')) {
+    if ((!req.session.oauth_access_token && !req.session.timestamp && !~req.url.indexOf('oauth'))) {
         res.redirect('/oauth');
+    }
+    else if ((Math.round(((new Date() - new Date(req.session.timestamp)) % 86400000) / 3600000) >= 1) && !~req.url.indexOf('refresh')) {
+        res.redirect('/refresh');
     }
     else {
         next();

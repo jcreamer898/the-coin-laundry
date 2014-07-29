@@ -31,13 +31,41 @@ exports.authorize = function(req, res) {
             }
             else {
                 // store the access token in the session
-                // 
                 req.session.oauth_access_token = oauth_access_token;
                 req.cookies.access_token = oauth_access_token;
                 req.session.oauth_access_token_secret = oauth_access_token_secret;
                 req.session.timestamp = new Date();
+                req.session.oauth_session_handle = results2.oauth_session_handle;
 
                 res.redirect('/');
             }
     });
+};
+
+exports.refresh = function(req, res) {
+    oa.get(req.session).refreshOAuthAccessToken(
+        req.session.oauth_access_token, 
+        req.session.oauth_access_token_secret, 
+        req.session.oauth_session_handle,
+        function(error, oauth_access_token, oauth_access_token_secret, results2) {
+            if(error) {
+                res.json(error);
+            }
+            else {
+                // store the access token in the session
+                req.session.oauth_access_token = oauth_access_token;
+                req.cookies.access_token = oauth_access_token;
+                req.session.oauth_access_token_secret = oauth_access_token_secret;
+                req.session.timestamp = new Date();
+                req.session.oauth_session_handle = results2.oauth_session_handle;
+
+                res.redirect('/');
+            }
+    });
+};
+
+exports.logout = function(req, res) {
+    req.session = {};
+
+    res.redirect('/');
 };
