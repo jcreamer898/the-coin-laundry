@@ -3,7 +3,9 @@
         <div class="col-md-12">
             <h2>{{team.name}}</h2>
             
-            <table class="table table-striped">
+            <h3 ng-if="!team.players.length">Your team hasn't been drafted yet.</h3>
+
+            <table class="table table-striped" ng-if="team.players.length">
                 <tr>
                     <th>Name</th>
                     <th>Team</th>

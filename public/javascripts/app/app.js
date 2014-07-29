@@ -1,16 +1,19 @@
 define(function(require) {
-    var angular = require("angular"), app;
+    var angular = require("angular"), 
+        app;
     
     require("controllers");
     require("directives");
     require("services");
     require("ngRoute");
+    require("admin");
 
     app = angular.module("app", [
             "ngRoute",
             "coin.controllers",
             "coin.services",
-            "coin.directives" ]);
+            "coin.directives",
+            "coin.admin" ]);
     
     app.config(function($routeProvider) {
         $routeProvider
@@ -32,6 +35,16 @@ define(function(require) {
                 controller: "PlayersCtrl",
                 controllerAs: "players"
             })
+            .when("/leagues", {
+                templateUrl: "/javascripts/views/leagues.html",
+                controller: "LeaguesCtrl",
+                controllerAs: "leagues"
+            })
+            .when("/leagues/:id", {
+                templateUrl: "/javascripts/views/league.html",
+                controller: "LeagueCtrl",
+                controllerAs: "league"
+            })
             .when("/teams", {
                 templateUrl: "/javascripts/views/teams.html",
                 controller: "TeamsCtrl"
@@ -43,6 +56,11 @@ define(function(require) {
             .when("/sandbox", {
                 templateUrl: "javascripts/views/sandbox.html",
                 controller: "SandboxCtrl"
+            })
+            .when("/admin", {
+                templateUrl: "javascripts/views/admin/index.html",
+                controller: "AdminCtrl",
+                controllerAs: "admin"
             })
             .otherwise({
                 template: "<h1>Not found</h1>"

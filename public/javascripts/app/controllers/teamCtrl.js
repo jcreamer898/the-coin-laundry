@@ -2,7 +2,7 @@ define(function (require) {
     var controllers = require("controllers/controllers");
 
     function TeamCtrl ($scope, Teams, $routeParams) {
-        Teams.team().success(function(data) {
+        Teams.team($routeParams.id).success(function(data) {
             $scope.team = data;
         });
     }

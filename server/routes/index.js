@@ -2,10 +2,37 @@
 /*
  * GET home page.
  */
-var oa = require('../utils/oauth');
+var oa = require('../utils/oauth'),
+    User = require("../db/models/user");
 
 exports.index = function(req, res) {
-    res.render('index', { title: 'Express' });
+    User.findOne({ 
+        'yahoo_id': req.session.xoauth_yahoo_guid 
+    }, function(err, user) {
+        if (!user) {
+            user = new User({
+                yahoo_id: req.session.xoauth_yahoo_guid
+            });
+
+            user.save(function() {
+                res.render('index', { 
+                    title: 'Express',
+                    user: user.yahoo_id
+                });
+            });
+
+            console.log(user, req.session.xoauth_yahoo_guid);
+
+            return;
+        }
+        else {
+            res.render('index', { 
+                title: 'Express',
+                user: user.yahoo_id
+            });
+        }
+    });
+    
 };  
 
 exports.oauth = function(req, res) {
@@ -36,6 +63,7 @@ exports.authorize = function(req, res) {
                 req.session.oauth_access_token_secret = oauth_access_token_secret;
                 req.session.timestamp = new Date();
                 req.session.oauth_session_handle = results2.oauth_session_handle;
+                req.session.xoauth_yahoo_guid = results2.xoauth_yahoo_guid;
 
                 res.redirect('/');
             }
@@ -58,6 +86,7 @@ exports.refresh = function(req, res) {
                 req.session.oauth_access_token_secret = oauth_access_token_secret;
                 req.session.timestamp = new Date();
                 req.session.oauth_session_handle = results2.oauth_session_handle;
+                req.session.xoauth_yahoo_guid = results2.xoauth_yahoo_guid;
 
                 res.redirect('/');
             }

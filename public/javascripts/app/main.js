@@ -22,9 +22,9 @@ require.config({
             deps: ["angular"]
         }
     },
-    packages: ["controllers", "services", "directives"]
+    packages: ["controllers", "services", "directives", "admin"]
 });
 
 require(["jquery", "angular", "bootstrap", "app"], function($, angular) {
-    angular.bootstrap(document.documentElement, ['app']);
+    angular.bootstrap(document.documentElement, ["app"]);
 });

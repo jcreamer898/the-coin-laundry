@@ -2,6 +2,7 @@
 
 var routes = require('./routes'),
     user = require('./routes/user'),
+    admin = require('./routes/admin'),
     api = require('./routes/api'),
     _ = require('underscore'),
     oa = require('./utils/oauth');
@@ -24,8 +25,12 @@ FantasyApp.prototype.setupRoutes = function() {
     this.app.get('/refresh', routes.refresh);
     this.app.get('/authorize', routes.authorize);
     
-    this.app.get('/api/users', user.list);
+    // Admin Routes
+    this.app.get('/api/admin/authenticate/:id', admin.isAdmin);
+    this.app.get('/api/admin/create/:id', admin.createAdmin);
 
+    // API Routes
+    this.app.get('/api/users', user.list);
     _.each(api, function(route, name) {
         _.each(route, function(fn, verb) {
             this.app[verb]('/api/' + name, oa.authorize, fn);

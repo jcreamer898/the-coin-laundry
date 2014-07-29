@@ -21,6 +21,7 @@
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="#">Home</a></li>
                     <li><a href="#/teams">Teams</a></li>
+                    <li><a href="#/leagues">Leagues</a></li>
                     <li><a href="#/players">Players</a></li>
                     <li><a href="#/rules">Rules</a></li>
                     <li><a href="#/history">League History</a></li>
@@ -36,5 +37,9 @@
 
     <!-- /container -->
     <script src="/javascripts/vendor/requirejs/require.js" data-main="javascripts/app/main"></script>
+
+    <script>
+        window.yahoo_user_id = "<%= user %>";
+    </script>
     </body>
 </html>

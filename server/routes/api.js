@@ -5,6 +5,9 @@ var oa = require('../utils/oauth'),
 /*
 Leagues
 http://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_keys=nfl/leagues?format=json
+Or,
+http://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games/leagues?format=json
+
 Leagues/Teams
 http://fantasysports.yahooapis.com/fantasy/v2/league/331.l.135247/teams?format=json
 Player Search
@@ -14,6 +17,60 @@ http://fantasysports.yahooapis.com/fantasy/v2/league/331.l.135247/players;search
 var isProd = process.env.PROD;
 
 module.exports = {
+    'leagues': {
+        get: function(req, res) {
+            oa.get(req.session).getProtectedResource(
+                'http://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_keys=nfl/leagues?format=json',
+                'GET',
+                req.session.oauth_access_token,
+                req.session.oauth_access_token_secret,
+                function(err, data, response) {
+                    var data = JSON.parse(data),
+                        leagueData = data.fantasy_content.users[0].user[1].games[0].game[1].leagues,
+                        leagues = [],
+                        league = {};
+
+                    _.each(leagueData, function(value, key) {
+                        if (value.league) leagues.push(value.league[0]);
+                    });
+
+                    res.json(leagues);
+                });
+        }
+    },
+    'leagues/:id/teams': {
+        get: function(req, res) {
+            oa.get(req.session).getProtectedResource(
+                'http://fantasysports.yahooapis.com/fantasy/v2/league/LEAGUEID/teams?format=json'.replace('LEAGUEID', req.params.id),
+                'GET',
+                req.session.oauth_access_token,
+                req.session.oauth_access_token_secret,
+                function(err, data) {
+                    var data = JSON.parse(data),
+                        teamData = data.fantasy_content.league[1].teams,
+                        teams = [],
+                        team;
+
+                    _.each(teamData, function(value) {
+                        if (value.team) {
+                            team = {};
+                            
+                            _.each(value.team[0], function(kvp) {
+                                if (kvp === Object(kvp)) {
+                                    _.each(kvp, function(val, key) {
+                                        team[key] = val;
+                                    });
+                                } 
+                            });
+
+                            teams.push(team);
+                        }
+                    });
+
+                    res.json(teams);
+                });
+        }
+    },
     'teams/:id': {
         get: function(req, res) {
             // if (!isProd) {
