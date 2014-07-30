@@ -20,9 +20,7 @@ exports.index = function(req, res) {
                     user: user.yahoo_id
                 });
             });
-
-            console.log(user, req.session.xoauth_yahoo_guid);
-
+            
             return;
         }
         else {

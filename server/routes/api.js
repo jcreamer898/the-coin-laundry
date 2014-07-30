@@ -17,6 +17,50 @@ http://fantasysports.yahooapis.com/fantasy/v2/league/331.l.135247/players;search
 var isProd = process.env.PROD;
 
 module.exports = {
+    'leagues/:id/players': {
+        get: function(req, res) {
+            var queryString = _.map(req.query, function(val, key) {
+                return key + '=' + val;
+            }).join(';');
+            console.log(queryString);
+            oa.get(req.session).getProtectedResource(
+                ('http://fantasysports.yahooapis.com/fantasy/v2/league/TEAM/players/stats;' + queryString + '?format=json')
+                    .replace('TEAM', req.params.id),
+                'GET',
+                req.session.oauth_access_token,
+                req.session.oauth_access_token_secret,
+                function(err, data) {
+                    
+                    var data = JSON.parse(data),
+                        playerData = data.fantasy_content.league[1].players,
+                        players = [],
+                        player = {};
+
+                    _.each(playerData, function(value) {
+                        if (value.player) {
+                            player = {};
+                            
+                            _.each(value.player[0], function(kvp) {
+                                if (kvp === Object(kvp)) {
+                                    _.each(kvp, function(val, key) {
+                                        player[key] = val;
+                                    });
+                                } 
+                            });
+
+                            if (value.player[1] && value.player[1].player_stats) {
+                                player.points = value.player[1].player_points.total;
+                            }
+
+                            players.push(player);
+                        }
+
+                    });
+
+                    res.json(players);
+                });
+        }
+    },
     'leagues': {
         get: function(req, res) {
             oa.get(req.session).getProtectedResource(

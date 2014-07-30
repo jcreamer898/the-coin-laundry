@@ -1,5 +1,5 @@
 define(function(require) {
-    var angular = require("angular"), 
+    var angular = require("angular"),
         app;
     
     require("controllers");
