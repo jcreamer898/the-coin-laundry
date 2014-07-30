@@ -111,7 +111,7 @@
             </li>
             <li class="dropdown">
                 <a href="javascript:void;" class="dropdown-toggle" data-toggle="dropdown">
-                <img src="{{user.imageUrl}}" style="width: 16px; height: 16px;" />
+                <img ng-src="{{user.imageUrl}}" style="width: 16px; height: 16px;" />
                 <span ng-bind="user.nickname"></span>
                 <b class="caret"></b></a>
                 <ul class="dropdown-menu">
@@ -133,14 +133,7 @@
         </ul>
         <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
         <div class="collapse navbar-collapse navbar-ex1-collapse">
-            <ul class="nav navbar-nav side-nav">
-                <li class="active"><a href="#"><i class="fa fa-home"></i> Home</a></li>
-                <li><a href="#/teams"><i class="fa fa-users"></i> Teams</a></li>
-                <li><a href="#/leagues"><i class="fa fa-trophy"></i> Leagues</a></li>
-                <li><a href="#/players"><i class="fa fa-male"></i> Players</a></li>
-                <li><a href="#/rules"><i class="fa fa-legal"></i> Rules</a></li>
-                <li><a href="#/history"><i class="fa fa-university"></i> League History</a></li>
-            </ul>
+            <coin-side-nav></coin-side-nav>
         </div>
         <!-- /.navbar-collapse -->
     </nav>
