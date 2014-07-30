@@ -9,7 +9,13 @@ var User = mongoose.model('User', {
         teams: [{ 
             type: Schema.Types.ObjectId, 
             ref: 'Team' 
-        }]
+        }],
+        displayAge: Number,
+        gender: String,
+        imageUrl: String,
+        location: String,
+        nickname: String,
+        profileUrl: String
 });
 
 module.exports = User;

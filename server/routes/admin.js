@@ -10,7 +10,7 @@ exports.isAdmin = function(req, res) {
         
         res.send({
             success: true,
-            data: true
+            data: isAdmin
         });
     });
 };

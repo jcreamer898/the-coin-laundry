@@ -6,5 +6,6 @@ define(function (require) {
         RulesCtrl = require("controllers/rulesCtrl"),
         PlayersCtrl = require("controllers/playersCtrl"),
         LeagueCtrl = require("controllers/leagueCtrl"),
-        LeaguesCtrl = require("controllers/leaguesCtrl");
+        LeaguesCtrl = require("controllers/leaguesCtrl"),
+        AppCtrl = require("controllers/appCtrl");;
 });

@@ -33,7 +33,14 @@ exports.authorize = function(req, res, next) {
         res.redirect('/oauth');
     }
     else if ((Math.round(((new Date() - new Date(req.session.timestamp)) % 86400000) / 3600000) >= 1) && !~req.url.indexOf('refresh')) {
-        res.redirect('/refresh');
+        var queryStringParts = [];
+        
+        for(var key in req.query) {
+            queryStringParts.push(key + '=' + encodeURIComponent(req.query[key]));
+        }
+        var queryString = queryStringParts.join('&');
+        
+        res.redirect('/refresh?redirect_to=' + req.path + (queryString ? '?' + queryString : ''));
     }
     else {
         next();

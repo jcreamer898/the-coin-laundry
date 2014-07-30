@@ -3,34 +3,58 @@
  * GET home page.
  */
 var oa = require('../utils/oauth'),
-    User = require("../db/models/user");
+    User = require('../db/models/user'),
+    _ = require('underscore');
 
 exports.index = function(req, res) {
-    User.findOne({ 
-        'yahoo_id': req.session.xoauth_yahoo_guid 
-    }, function(err, user) {
-        if (!user) {
-            user = new User({
-                yahoo_id: req.session.xoauth_yahoo_guid
-            });
+    oa.get(req.session).getProtectedResource(
+        'https://social.yahooapis.com/v1/user/ID/profile/usercard?format=json'.replace('ID', req.session.xoauth_yahoo_guid ),
+        'GET',
+        req.session.oauth_access_token,
+        req.session.oauth_access_token_secret,
+        function(err, data) {
+            data = JSON.parse(data);
+            data = data.profile;
 
-            user.save(function() {
-                res.render('index', { 
-                    title: 'Express',
-                    user: user.yahoo_id
+            User.findOne({ 
+                'yahoo_id': req.session.xoauth_yahoo_guid 
+            }, function(err, user) {
+                console.log(user);
+                if (!user) {
+                    user = new User({
+                        yahoo_id: req.session.xoauth_yahoo_guid,
+                        displayAge: data.displayAge,
+                        gender: data.gender,
+                        imageUrl: data.image.imageUrl,
+                        location: data.location,
+                        nickname: data.nickname,
+                        profileUrl: data.profileUrl
+                    });
+                }
+                else {
+                    user.displayAge = data.displayAge;
+                    user.gender = data.gender;
+                    user.imageUrl = data.image.imageUrl;
+                    user.location = data.location;
+                    user.nickname = data.nickname;
+                    user.profileUrl = data.profileUr;
+                }
+
+                user.save(function(err) {
+                    var u = user.toObject();
+                    
+                    delete u._id;
+                    delete u._v;
+
+                    if (err) throw err;
+
+                    res.render('index', { 
+                        title: 'Express',
+                        user: JSON.stringify(u)
+                    });
                 });
             });
-            
-            return;
-        }
-        else {
-            res.render('index', { 
-                title: 'Express',
-                user: user.yahoo_id
-            });
-        }
-    });
-    
+        });
 };  
 
 exports.oauth = function(req, res) {
@@ -86,7 +110,7 @@ exports.refresh = function(req, res) {
                 req.session.oauth_session_handle = results2.oauth_session_handle;
                 req.session.xoauth_yahoo_guid = results2.xoauth_yahoo_guid;
 
-                res.redirect('/');
+                res.redirect(req.query.redirect_to || '/');
             }
     });
 };

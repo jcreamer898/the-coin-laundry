@@ -17,12 +17,27 @@ http://fantasysports.yahooapis.com/fantasy/v2/league/331.l.135247/players;search
 var isProd = process.env.PROD;
 
 module.exports = {
+    'profile/:id': {
+        get: function(req, res) {
+            oa.get(req.session).getProtectedResource(
+                'https://social.yahooapis.com/v1/user/ID/profile/usercard?format=json'.replace('ID', req.params.id),
+                'GET',
+                req.session.oauth_access_token,
+                req.session.oauth_access_token_secret,
+                function(err, data) {
+                    var data = JSON.parse(data);
+                        
+
+                    res.json(data.profile);
+                });
+        }
+    },
     'leagues/:id/players': {
         get: function(req, res) {
             var queryString = _.map(req.query, function(val, key) {
                 return key + '=' + val;
             }).join(';');
-            console.log(queryString);
+            
             oa.get(req.session).getProtectedResource(
                 ('http://fantasysports.yahooapis.com/fantasy/v2/league/TEAM/players/stats;' + queryString + '?format=json')
                     .replace('TEAM', req.params.id),
@@ -30,7 +45,6 @@ module.exports = {
                 req.session.oauth_access_token,
                 req.session.oauth_access_token_secret,
                 function(err, data) {
-                    
                     var data = JSON.parse(data),
                         playerData = data.fantasy_content.league[1].players,
                         players = [],
@@ -187,12 +201,21 @@ module.exports = {
                 req.session.oauth_access_token,
                 req.session.oauth_access_token_secret,
                 function(err, data, response) {
-                    var teamsData = JSON.parse(data).fantasy_content.users[0]
-                        .user[1]
-                        .games[0]
-                        .game[1]
-                        .teams,
+                    var json = JSON.parse(data),
+                        teamsData = {},
                         teams = [];
+
+                    if (!json.fantasy_content) {
+                        return res.json({
+                            success: false
+                        });
+                    }
+                    
+                    teamsData = json.fantasy_content.users[0]
+                            .user[1]
+                            .games[0]
+                            .game[1]
+                            .teams
 
                     _.each(teamsData, function(obj) {
                         var teamData = {};
