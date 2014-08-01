@@ -9,9 +9,13 @@ require.config({
         "flot-data": "lib/flot/flot-data",
         morris: "lib/morris/morris",
         morrisData: "lib/morris/morris-data",
-        raphael: "lib/morris/raphael.min"
+        raphael: "lib/morris/raphael.min",
+        socketio: "/socket.io/socket.io"
     },
     shim: {
+        socketio: {
+            exports: "io"
+        },
         raphael: {
             exports: "Raphael"
         },
@@ -46,6 +50,11 @@ require.config({
     packages: ["controllers", "services", "directives", "admin"]
 });
 
-require(["jquery", "angular", "bootstrap", "app", "raphael", "morris", "morrisData"], function($, angular) {
+require(["jquery", "angular", "socketio", "bootstrap", "app", "raphael", "morris", "morrisData"], function($, angular, io) {
+    var socket = io("http://localhost:3000");
+    socket.on("news", function (data) {
+        console.log(data);
+        socket.emit("my other event", { my: "data" });
+    });
     angular.bootstrap(document.documentElement, ["app"]);
 });
