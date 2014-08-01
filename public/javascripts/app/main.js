@@ -51,7 +51,7 @@ require.config({
 });
 
 require(["jquery", "angular", "socketio", "bootstrap", "app", "raphael", "morris", "morrisData"], function($, angular, io) {
-    var socket = io("http://localhost:3000");
+    var socket = io("/");
     socket.on("news", function (data) {
         console.log(data);
         socket.emit("my other event", { my: "data" });
