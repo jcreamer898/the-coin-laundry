@@ -10,6 +10,10 @@ var oa = require('../utils/oauth'),
 FantasySports.options(require('../config.js'));
 
 exports.index = function(req, res) {
+    if (!req.session.oauthAccessToken) {
+        return res.redirect('/oauth');
+    }
+
     FantasySports.
         request(req, res)
         .api('https://social.yahooapis.com/v1/user/' + req.session.xoauthYahooGuid + '/profile/usercard?format=json')
