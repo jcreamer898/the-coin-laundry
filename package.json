@@ -13,7 +13,7 @@
     "ejs": "*",
     "oauth": "jcreamer898/node-oauth",
     "underscore": "~1.5.2",
-    "mongoose": "^3.8.14",
+    "mongoose": "^3.8.12",
     "fantasysports": "^0.1.2"
   }
 }
