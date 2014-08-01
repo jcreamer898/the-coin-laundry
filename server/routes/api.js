@@ -1,6 +1,9 @@
 var oa = require('../utils/oauth'),
     _ = require('underscore'),
-    fs = require('fs');
+    fs = require('fs'),
+    FantasySports = require('FantasySports');
+
+FantasySports.options(require('../config.js'));
 
 /*
 Leagues
@@ -13,21 +16,13 @@ http://fantasysports.yahooapis.com/fantasy/v2/league/331.l.135247/teams?format=j
 Player Search
 http://fantasysports.yahooapis.com/fantasy/v2/league/331.l.135247/players;search=smith?format=json
 */
-
-var isProd = process.env.PROD;
-
 module.exports = {
     'profile/:id': {
         get: function(req, res) {
-            oa.get(req.session).getProtectedResource(
-                'https://social.yahooapis.com/v1/user/ID/profile/usercard?format=json'.replace('ID', req.params.id),
-                'GET',
-                req.session.oauth_access_token,
-                req.session.oauth_access_token_secret,
-                function(err, data) {
-                    var data = JSON.parse(data);
-                        
-
+             FantasySports
+                .request(req, res)
+                .api('https://social.yahooapis.com/v1/user/ID/profile/usercard?format=json'.replace('ID', req.params.id))
+                .done(function(data) {
                     res.json(data.profile);
                 });
         }
@@ -38,15 +33,13 @@ module.exports = {
                 return key + '=' + val;
             }).join(';');
             
-            oa.get(req.session).getProtectedResource(
-                ('http://fantasysports.yahooapis.com/fantasy/v2/league/TEAM/players/stats;' + queryString + '?format=json')
-                    .replace('TEAM', req.params.id),
-                'GET',
-                req.session.oauth_access_token,
-                req.session.oauth_access_token_secret,
-                function(err, data) {
-                    var data = JSON.parse(data),
-                        playerData = data.fantasy_content.league[1].players,
+             FantasySports
+                .request(req, res)
+                .api('http://fantasysports.yahooapis.com/fantasy/v2/league/' + req.params.id + '/players/stats;' + 
+                    queryString + 
+                    '?format=json')
+                .done(function(data) {
+                    var playerData = data.fantasy_content.league[1].players,
                         players = [],
                         player = {};
 
@@ -77,18 +70,14 @@ module.exports = {
     },
     'leagues': {
         get: function(req, res) {
-            oa.get(req.session).getProtectedResource(
-                'http://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_keys=nfl/leagues?format=json',
-                'GET',
-                req.session.oauth_access_token,
-                req.session.oauth_access_token_secret,
-                function(err, data, response) {
-                    var data = JSON.parse(data),
-                        leagueData = data.fantasy_content.users[0].user[1].games[0].game[1].leagues,
-                        leagues = [],
-                        league = {};
+            FantasySports
+                .request(req, res)
+                .api('http://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_keys=nfl/leagues?format=json')
+                .done(function(data) {
+                    var leagueData = data.fantasy_content.users[0].user[1].games[0].game[1].leagues,
+                        leagues = [];
 
-                    _.each(leagueData, function(value, key) {
+                    _.each(leagueData, function(value) {
                         if (value.league) leagues.push(value.league[0]);
                     });
 
@@ -98,14 +87,11 @@ module.exports = {
     },
     'leagues/:id/teams': {
         get: function(req, res) {
-            oa.get(req.session).getProtectedResource(
-                'http://fantasysports.yahooapis.com/fantasy/v2/league/LEAGUEID/teams?format=json'.replace('LEAGUEID', req.params.id),
-                'GET',
-                req.session.oauth_access_token,
-                req.session.oauth_access_token_secret,
-                function(err, data) {
-                    var data = JSON.parse(data),
-                        teamData = data.fantasy_content.league[1].teams,
+            FantasySports
+                .request(req, res)
+                .api('http://fantasysports.yahooapis.com/fantasy/v2/league/' + req.params.id + '/teams?format=json')
+                .done(function(data) {
+                    var teamData = data.fantasy_content.league[1].teams,
                         teams = [],
                         team;
 
@@ -131,24 +117,11 @@ module.exports = {
     },
     'teams/:id': {
         get: function(req, res) {
-            // if (!isProd) {
-            //     fs.readFile(__dirname + "/../fixtures/team.json", function(err, contents) {
-            //         if (err) throw err;
-
-            //         res.send(JSON.parse(contents));
-            //     });
-            //     return;
-            // }
-
-            oa.get(req.session).getProtectedResource(
-                'http://fantasysports.yahooapis.com/fantasy/v2/team/TEAM/players?format=json'
-                .replace("TEAM", req.params.id),
-                'GET',
-                req.session.oauth_access_token,
-                req.session.oauth_access_token_secret,
-                function(err, data, response) {
-                    var data = JSON.parse(data),
-                        teamData = data.fantasy_content.team[0],
+            FantasySports
+                .request(req, res)
+                .api('http://fantasysports.yahooapis.com/fantasy/v2/team/' + req.params.id + '/players?format=json')
+                .done(function(data) {
+                    var teamData = data.fantasy_content.team[0],
                         playerData = data.fantasy_content.team[1].players,
                         players = [],
                         team = {};
@@ -186,36 +159,18 @@ module.exports = {
     },
     teams: {
         get: function(req, res) {
-            // if (!isProd) {
-            //     fs.readFile(__dirname + "/../fixtures/teams.json", function(err, contents) {
-            //         if (err) throw err;
-
-            //         console.log(contents);
-            //         res.send(JSON.parse(contents));
-            //     });
-            //     return;
-            // }
-
-            oa.get(req.session).getProtectedResource('http://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_keys=nfl/teams?format=json',
-                'GET',
-                req.session.oauth_access_token,
-                req.session.oauth_access_token_secret,
-                function(err, data, response) {
-                    var json = JSON.parse(data),
-                        teamsData = {},
+            FantasySports
+                .request(req, res)
+                .api('http://fantasysports.yahooapis.com/fantasy/v2/users;use_login=1/games;game_keys=nfl/teams?format=json')
+                .done(function(json) {
+                    var teamsData = {},
                         teams = [];
-
-                    if (!json.fantasy_content) {
-                        return res.json({
-                            success: false
-                        });
-                    }
                     
                     teamsData = json.fantasy_content.users[0]
                             .user[1]
                             .games[0]
                             .game[1]
-                            .teams
+                            .teams;
 
                     _.each(teamsData, function(obj) {
                         var teamData = {};
@@ -239,12 +194,11 @@ module.exports = {
     },
     sandbox: {
         post: function(req, res) {
-            oa.get(req.session).getProtectedResource(req.body.url,
-                'GET',
-                req.session.oauth_access_token,
-                req.session.oauth_access_token_secret,
-                function(err, data, response) {
-                    res.json(JSON.parse(data));
+            FantasySports
+                .request(req, res)
+                .api(req.body.url)
+                .done(function(data) {
+                    res.json(data);
                 });
         }
     }

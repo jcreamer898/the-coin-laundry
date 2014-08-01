@@ -19,10 +19,9 @@ FantasyApp.prototype.initialize = function() {
 };
 
 FantasyApp.prototype.setupRoutes = function() {
-    this.app.get('/', oa.authorize, routes.index);
+    this.app.get('/', routes.index);
     this.app.get('/oauth', routes.oauth);
     this.app.get('/logout', routes.logout);
-    this.app.get('/refresh', routes.refresh);
     this.app.get('/authorize', routes.authorize);
     
     // Admin Routes
@@ -33,7 +32,7 @@ FantasyApp.prototype.setupRoutes = function() {
     this.app.get('/api/users', user.list);
     _.each(api, function(route, name) {
         _.each(route, function(fn, verb) {
-            this.app[verb]('/api/' + name, oa.authorize, fn);
+            this.app[verb]('/api/' + name, fn);
         }, this);
     }, this);
 };
