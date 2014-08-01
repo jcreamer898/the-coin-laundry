@@ -1,5 +1,11 @@
 'use strict';
+/*
 
+    THIS FILE IS DEPRECATED
+
+    But, keep for reference... for now.
+
+ */
 var OAuth = require('oauth').OAuth,
     config = require('../config.js');
 

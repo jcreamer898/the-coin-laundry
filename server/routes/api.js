@@ -68,6 +68,18 @@ module.exports = {
                 });
         }
     },
+    'leagues/:id/setup': { 
+        get: function(req, res) {
+            FantasySports
+                .request(req, res)
+                .api('http://fantasysports.yahooapis.com/fantasy/v2/league/' + req.params.id + '?format=json')
+                .done(function(data) {
+                    var league = data.fantasy_content.league;
+
+                    res.json(league);
+                });
+        }
+    },
     'leagues': {
         get: function(req, res) {
             FantasySports

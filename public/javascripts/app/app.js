@@ -57,7 +57,7 @@ define(function(require) {
                 templateUrl: "javascripts/views/sandbox.html",
                 controller: "SandboxCtrl"
             })
-            .when("/admin", {
+            .when("/admin/:tool", {
                 templateUrl: "javascripts/views/admin/index.html",
                 controller: "AdminCtrl",
                 controllerAs: "admin"
