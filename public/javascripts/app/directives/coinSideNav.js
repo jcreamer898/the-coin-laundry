@@ -7,9 +7,9 @@ define(function (require) {
             templateUrl: "javascripts/app/directives/templates/coinSideNav.html",
             link: function(scope, el) {
                 // This is lazy... but, it works for now
-                var page = document.location.hash.replace("/#", ""),
+                var page = document.location.hash.replace("#/", ""),
                     $link = el.find("a[href*='" + page + "']");
-
+                
                 if ($link.length) {
                     el.find("li").removeClass("active");
                     $link.closest("li").addClass("active");

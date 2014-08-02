@@ -41,8 +41,15 @@ var server = app.listen(app.get('port'), function(){
 io = require('socket.io')(server);
 
 io.on('connection', function (socket) {
-    socket.emit('news', { hello: 'world' });
-    socket.on('my other event', function (data) {
-        console.log(data);
+    socket.emit('chat.send', { 
+        message: 'Welcome!',
+        user: 'coinlaundry'
+    });
+    
+    socket.on('chat.send', function (data) {
+        socket.broadcast.emit('chat.send', { 
+            message: data.message,
+            user: data.user
+        });    
     });
 });

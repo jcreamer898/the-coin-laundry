@@ -7,13 +7,15 @@ define(function(require) {
     require("services");
     require("ngRoute");
     require("admin");
+    require("chat");
 
     app = angular.module("app", [
             "ngRoute",
             "coin.controllers",
             "coin.services",
             "coin.directives",
-            "coin.admin" ]);
+            "coin.admin",
+            "coin.chat" ]);
     
     app.config(function($routeProvider) {
         $routeProvider

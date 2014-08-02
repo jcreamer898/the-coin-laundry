@@ -66,7 +66,7 @@ define(function(require) {
             // chart.
             labels: ['points'],
             // Disables line smoothing
-            smooth: true,
+            smooth: false,
             resize: true
         });
     }

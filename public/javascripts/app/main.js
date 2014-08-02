@@ -47,14 +47,9 @@ require.config({
             deps: ["angular"]
         }
     },
-    packages: ["controllers", "services", "directives", "admin"]
+    packages: ["controllers", "services", "directives", "admin", "chat"]
 });
 
-require(["jquery", "angular", "socketio", "bootstrap", "app", "raphael", "morris", "morrisData"], function($, angular, io) {
-    var socket = io("/");
-    socket.on("news", function (data) {
-        console.log(data);
-        socket.emit("my other event", { my: "data" });
-    });
+require(["jquery", "angular", "bootstrap", "app", "raphael", "morris", "morrisData"], function($, angular) {
     angular.bootstrap(document.documentElement, ["app"]);
 });
