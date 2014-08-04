@@ -40,16 +40,32 @@ var server = app.listen(app.get('port'), function(){
 
 io = require('socket.io')(server);
 
+var Chat = require('./server/db/models/chat');
+
 io.on('connection', function (socket) {
-    socket.emit('chat.send', { 
-        message: 'Welcome!',
-        user: 'coinlaundry'
+    Chat.find(function(err, chats) {
+        if (chats.length) {
+            _.each(chats, function(chat) {
+                socket.emit('chat.message', { 
+                    message: chat.message,
+                    user: chat.user
+                });
+            });
+        }
     });
     
     socket.on('chat.send', function (data) {
-        socket.broadcast.emit('chat.send', { 
+        var chat = new Chat({
+            user: data.user,
             message: data.message,
-            user: data.user
-        });    
+            yahoo_id: data.yahoo_id
+        });
+
+        chat.save(function() {
+            socket.broadcast.emit('chat.message', { 
+                message: data.message,
+                user: data.user
+            });   
+        });
     });
 });

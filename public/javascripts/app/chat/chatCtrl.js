@@ -10,7 +10,7 @@ define(function(require) {
         this.message = "";
         this.messages = Chat.messages;
         
-        socket.on("chat.send", function (data) {
+        socket.on("chat.message", function (data) {
             self.messages.unshift(data);
 
             $scope.$apply();
