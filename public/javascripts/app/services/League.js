@@ -55,6 +55,16 @@ define(function (require) {
             
             return deferred.promise;
         };
+
+        this.searchForPlayer = function(leagueKey, query) {
+            return $http({
+                method: "get",
+                url: "/api/leagues/" + leagueKey + "/players/",
+                params: {
+                    search: query
+                }
+            });
+        };
     }
 
     return services.service("League", League);

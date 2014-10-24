@@ -9,9 +9,9 @@ var Team = mongoose.model('Team', {
     },
     // The Yahoo ID
     team_key: String,
-    teams: [{ 
+    players: [{ 
         type: Schema.Types.ObjectId, 
-        ref: 'Team' 
+        ref: 'Player' 
     }]
 });
 

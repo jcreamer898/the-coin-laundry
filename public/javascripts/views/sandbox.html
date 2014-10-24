@@ -6,9 +6,12 @@
             </h1>
 
             <div class="form-group">
-                <input type="text" class="form-control" id="url" placeholder="Enter url" ng-model="url">
+                <input type="text" class="form-control" id="url" placeholder="Enter url" ng-model="url" />
             </div>
-            <button ng-click="send(url)" class="btn btn-default">Send</button>
+            <div class="form-group">
+                <textarea class="form-control" id="data" ng-model="data"></textarea>
+            </div>
+            <button ng-click="send(url, data)" class="btn btn-default">Send</button>
         </div>
         <hr />
         <div class="col-md-12">

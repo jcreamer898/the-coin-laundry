@@ -15,6 +15,22 @@ Leagues/Teams
 http://fantasysports.yahooapis.com/fantasy/v2/league/331.l.135247/teams?format=json
 Player Search
 http://fantasysports.yahooapis.com/fantasy/v2/league/331.l.135247/players;search=smith?format=json
+
+Transactions
+http://fantasysports.yahooapis.com/fantasy/v2/league/331.l.198983/transactions?format=json
+<?xml version="1.0" encoding="UTF-8" ?>
+<fantasy_content>
+    <transaction>
+        <type>drop</type>
+        <player>
+            <player_key>331.p.24869</player_key>
+            <transaction_data>
+                <type>drop</type>
+                <source_team_key>331.l.198983.t.2</source_team_key>
+            </transaction_data>
+        </player>
+    </transaction>
+</fantasy_content>
 */
 module.exports = {
     'profile/:id': {
@@ -31,11 +47,11 @@ module.exports = {
         get: function(req, res) {
             var queryString = _.map(req.query, function(val, key) {
                 return key + '=' + val;
-            }).join(';');
-            
-             FantasySports
+            }).join(';');  
+
+            FantasySports
                 .request(req, res)
-                .api('http://fantasysports.yahooapis.com/fantasy/v2/league/' + req.params.id + '/players/stats;' + 
+                .api('http://fantasysports.yahooapis.com/fantasy/v2/league/' + req.params.id + '/players;' + 
                     queryString + 
                     '?format=json')
                 .done(function(data) {
@@ -65,7 +81,11 @@ module.exports = {
                     });
 
                     res.json(players);
+                }, function(err) {
+                    res.send(err);
                 });
+
+            
         }
     },
     'leagues/:id/setup': { 
@@ -206,11 +226,14 @@ module.exports = {
     },
     sandbox: {
         post: function(req, res) {
+            
             FantasySports
                 .request(req, res)
-                .api(req.body.url)
+                .api(req.body.url, req.body.data)
                 .done(function(data) {
                     res.json(data);
+                }, function(err) {
+                    res.json(err);
                 });
         }
     }
